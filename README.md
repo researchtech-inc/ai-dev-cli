@@ -59,6 +59,7 @@ Run them through `dev check` or `dev check --steps <name>`.
 - `verify`: Runs the configured validation sequence when `[tool.dev-cli.verify].enabled = true`.
 - `benchmark`: Runs configured benchmark smoke, case, or tier targets when benchmark config is enabled.
 - `examples`: Runs configured static, smoke, or live example checks when examples config is enabled.
+- `probe`: Runs a named configured probe target and forwards trailing pytest arguments verbatim.
 
 ### Scaffolding
 

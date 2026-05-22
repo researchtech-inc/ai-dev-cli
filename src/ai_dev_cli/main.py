@@ -15,6 +15,7 @@ from ai_dev_cli._scope import detect_test_scope, get_source_dirs_for_test_dirs, 
 from ai_dev_cli._state import check_idempotency, hash_tracked_files, save_run_state
 from ai_dev_cli.bootstrap.main import add_init_parser
 from ai_dev_cli.hook.config import HookConfigError, load_hook_config
+from ai_dev_cli.probe import cmd_probe
 
 LANE_PRIORITY = ("qualification", "integration", "unit")
 EXAMPLE_MODES = ("static", "smoke", "live")
@@ -576,15 +577,13 @@ def cmd_info(_args: argparse.Namespace) -> int:
     print("  dev verify")
     print("  dev examples (--static | --smoke | --live)")
     print(f"  dev benchmark (--smoke | --cases GLOB | --tier {_choice_text(_benchmark_tiers(cfg))})")
+    print("  dev probe NAME [pytest_args...]")
     print("  dev status")
     print("  dev info")
     print("  dev init")
     print()
 
-    print("Logs:")
-    print("  Details: .tmp/dev-runs/<YYYYMMDD-HHMMSS>-<label>.log")
-    print("  Pytest runs also write matching .tmp/dev-runs/<YYYYMMDD-HHMMSS>-<label>.jsonl report logs.")
-    print("  .tmp/dev-runs/.state.json stores idempotency and step-cache metadata.")
+    _print_log_info()
     print()
 
     print("Test lanes:")
@@ -599,6 +598,9 @@ def cmd_info(_args: argparse.Namespace) -> int:
     print(f"  verify: {_enabled_label(cfg, 'verify')}")
     print(f"  examples: {_enabled_label(cfg, 'examples')}")
     print(f"  benchmark: {_enabled_label(cfg, 'benchmark')}")
+    print()
+
+    _print_probe_info(cfg)
     print()
 
     _print_hook_info()
@@ -637,6 +639,23 @@ def _print_hook_info() -> None:
     print(f"  project rules: {len(hook_config.project_rules)}")
 
 
+def _print_log_info() -> None:
+    print("Logs:")
+    print("  Details: .tmp/dev-runs/<YYYYMMDD-HHMMSS>-<label>.log")
+    print("  Pytest runs also write matching .tmp/dev-runs/<YYYYMMDD-HHMMSS>-<label>.jsonl report logs.")
+    print("  .tmp/dev-runs/.state.json stores idempotency and step-cache metadata.")
+
+
+def _print_probe_info(cfg: ProjectConfig) -> None:
+    print("Configured probes:")
+    probes = _enabled_probes(cfg)
+    if not probes:
+        print("  (none enabled)")
+        return
+    for name, target in probes.items():
+        print(f"  {name}: {target}")
+
+
 def _choice_text(values: dict[str, Any] | tuple[str, ...]) -> str:
     choices = tuple(values) if isinstance(values, dict) else values
     return "{" + ",".join(sorted(choices)) + "}" if choices else "(none configured)"
@@ -649,6 +668,20 @@ def _benchmark_tiers(cfg: ProjectConfig) -> tuple[str, ...]:
 
 def _enabled_label(cfg: ProjectConfig, key: str) -> str:
     return "enabled" if _enabled_section(cfg, key) is not None else "disabled"
+
+
+def _enabled_probes(cfg: ProjectConfig) -> dict[str, str]:
+    raw = cfg.dev_cli_config.get("probes", {})
+    if not isinstance(raw, dict):
+        return {}
+    probes: dict[str, str] = {}
+    for name, section in raw.items():
+        if not isinstance(name, str) or not isinstance(section, dict) or section.get("enabled") is not True:
+            continue
+        target = section.get("target")
+        if isinstance(target, str):
+            probes[name] = target
+    return probes
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -700,6 +733,11 @@ def build_parser() -> argparse.ArgumentParser:
     examples_group.add_argument("--smoke", action="store_true", help="Run smoke examples checks")
     examples_group.add_argument("--live", action="store_true", help="Run live examples checks")
     p_examples.set_defaults(func=cmd_examples)
+
+    p_probe = sub.add_parser("probe", help="Run a configured probe suite")
+    p_probe.add_argument("name", help="Probe name from [tool.dev-cli.probes.<name>]")
+    p_probe.add_argument("pytest_args", nargs=argparse.REMAINDER, help="Arguments forwarded verbatim to pytest")
+    p_probe.set_defaults(func=cmd_probe)
 
     p_status = sub.add_parser("status", help="Show changed files, last runs, suggestions")
     p_status.set_defaults(func=cmd_status)

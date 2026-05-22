@@ -567,6 +567,7 @@ def _config_hash(
         "lanes": cli_config.get("lanes", {}),
         "examples": cli_config.get("examples", {}),
         "benchmark": cli_config.get("benchmark", {}),
+        "probes": cli_config.get("probes", {}),
         "verify": cli_config.get("verify", {}),
         "pytest_plugin": cli_config.get("pytest_plugin", {}),
         "hook": cli_config.get("hook", {}),
