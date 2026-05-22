@@ -57,7 +57,7 @@ def test_dev_test_runs_pytest_plugin_through_runner_path(tmp_path: Path) -> None
     result = run_dev(
         ("test", "--lane=unit"),
         cwd=project,
-        extra_env={"PYTEST_ADDOPTS": "-p ai_dev_cli._pytest_plugin"},
+        extra_env={"PYTEST_ADDOPTS": "-p no:ai_dev_cli -p ai_dev_cli._pytest_plugin"},
         timeout=60,
     )
 

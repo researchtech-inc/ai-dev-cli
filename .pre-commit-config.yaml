@@ -25,3 +25,10 @@ repos:
         pass_filenames: false
         stages:
           - pre-commit
+      - id: dev-test-integration
+        name: dev test integration
+        entry: dev test --lane=integration
+        language: system
+        pass_filenames: false
+        stages:
+          - pre-push
