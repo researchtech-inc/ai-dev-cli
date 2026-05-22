@@ -1,0 +1,7 @@
+{
+  "name": "pytest-xdist piped output is not raw pytest output",
+  "command": "pytest-xdist --version | head",
+  "expected_decision": "allow",
+  "expected_rule_id": null,
+  "stderr_substring": ""
+}

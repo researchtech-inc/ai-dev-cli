@@ -1,0 +1,11 @@
+{
+  "name": "bedrock disabled rule ID fails closed",
+  "command": "dev check",
+  "expected_decision": "block",
+  "expected_rule_id": null,
+  "pyproject": [
+    "[tool.dev-cli.hook]",
+    "disable = [\"no-raw-pytest\"]"
+  ],
+  "stderr_substring": "pyproject.toml:2 because it is bedrock"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "importlib snippet is allowed",
+  "command": "python -c \"import importlib; importlib.import_module('ai_dev_cli')\"",
+  "expected_decision": "allow",
+  "expected_rule_id": null,
+  "stderr_substring": ""
+}

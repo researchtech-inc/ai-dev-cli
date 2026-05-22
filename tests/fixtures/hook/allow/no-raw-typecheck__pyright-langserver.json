@@ -1,0 +1,7 @@
+{
+  "name": "pyright-langserver executable is not raw pyright",
+  "command": "pyright-langserver --stdio",
+  "expected_decision": "allow",
+  "expected_rule_id": null,
+  "stderr_substring": ""
+}

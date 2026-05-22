@@ -1,0 +1,7 @@
+{
+  "name": "removed dev ci command is blocked",
+  "command": "dev ci",
+  "expected_decision": "block",
+  "expected_rule_id": "no-dev-removed-commands",
+  "stderr_substring": "BLOCKED: Removed dev commands bypass the current workflow surface."
+}

@@ -1,0 +1,7 @@
+{
+  "name": "removed integration flag is blocked",
+  "command": "dev test --integration",
+  "expected_decision": "block",
+  "expected_rule_id": "no-dev-removed-lane-flags",
+  "stderr_substring": "BLOCKED: Removed dev test lane flags bypass the current lane model"
+}

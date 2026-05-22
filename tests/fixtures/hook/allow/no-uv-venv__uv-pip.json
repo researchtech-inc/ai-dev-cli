@@ -1,0 +1,7 @@
+{
+  "name": "uv pip is allowed instead of venv creation",
+  "command": "uv pip install -e .",
+  "expected_decision": "allow",
+  "expected_rule_id": null,
+  "stderr_substring": ""
+}

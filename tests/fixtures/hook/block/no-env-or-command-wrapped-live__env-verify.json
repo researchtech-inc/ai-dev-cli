@@ -1,0 +1,7 @@
+{
+  "name": "env-wrapped verify is blocked",
+  "command": "FOO=bar dev verify",
+  "expected_decision": "block",
+  "expected_rule_id": "no-env-or-command-wrapped-live",
+  "stderr_substring": "BLOCKED: Wrapped dev commands can hide live or broad validation from the agent policy."
+}

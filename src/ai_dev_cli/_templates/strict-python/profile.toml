@@ -1,0 +1,112 @@
+name = "strict-python"
+version = 1
+
+[tool.dev-cli]
+schema_version = 1
+cache_dir = ".tmp/dev-runs"
+tracked_extensions = [".py", ".toml", ".yml", ".yaml", ".json"]
+runner = "auto"
+test_roots = ["tests"]
+source_packages = []
+replace_auto_checks = false
+checks = []
+
+[tool.dev-cli.hash]
+globs = [".semgrep/*.yml", "pyrightconfig*.json", "tests/conftest.py"]
+files = ["pyproject.toml", ".vulture_whitelist.py"]
+optional_files = []
+
+[tool.dev-cli.step_timeouts]
+lint = 300
+typecheck = 300
+deadcode = 300
+semgrep = 600
+docstrings = 300
+test_validator = 120
+
+[tool.dev-cli.lanes.unit]
+paths = ["tests/unit"]
+xdist = ["-n", "auto", "--dist", "worksteal"]
+timeout = 30
+slow_threshold = 30
+testmon = true
+
+[tool.dev-cli.lanes.integration]
+paths = ["tests/integration"]
+xdist = ["-n", "4", "--dist", "loadfile"]
+timeout = 180
+slow_threshold = 120
+testmon = true
+blast_radius_ratio = 0.5
+
+[tool.dev-cli.lanes.qualification]
+paths = ["tests/qualification"]
+xdist = ["-n", "2"]
+timeout = 900
+testmon = false
+
+[tool.dev-cli.verify]
+enabled = true
+steps = [{command = "check"}]
+
+[tool.dev-cli.hook]
+enabled = true
+disable = []
+
+[tool.dev-cli.pytest_plugin]
+enabled = true
+
+[[templates]]
+source = "pyproject.snippet.toml"
+target = "pyproject.toml"
+merge = "tool.dev-cli"
+
+[[templates]]
+source = ".claude/settings.json"
+target = ".claude/settings.json"
+merge = "replace-managed"
+
+[[templates]]
+source = ".codex/config.toml"
+target = ".codex/config.toml"
+merge = "replace-managed"
+
+[[templates]]
+source = ".pre-commit-config.yaml"
+target = ".pre-commit-config.yaml"
+merge = "replace-managed"
+
+[[templates]]
+source = "Makefile.delegate"
+target = "Makefile"
+merge = "replace-managed"
+
+[[templates]]
+source = ".github/workflows/ci.yml"
+target = ".github/workflows/ci.yml"
+merge = "replace-managed"
+
+[[templates]]
+source = ".github/workflows/reusable-quality-checks.yml"
+target = ".github/workflows/reusable-quality-checks.yml"
+merge = "replace-managed"
+
+[[templates]]
+source = ".vulture_whitelist.py"
+target = ".vulture_whitelist.py"
+merge = "replace-managed"
+
+[[templates]]
+source = ".semgrep/python_safety.yml"
+target = ".semgrep/python_safety.yml"
+merge = "replace-managed"
+
+[[templates]]
+source = ".semgrep/async.yml"
+target = ".semgrep/async.yml"
+merge = "replace-managed"
+
+[[templates]]
+source = "CLAUDE.md"
+target = "CLAUDE.md"
+merge = "replace-managed"

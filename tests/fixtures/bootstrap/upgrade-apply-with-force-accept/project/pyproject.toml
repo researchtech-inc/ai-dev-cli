@@ -1,0 +1,4 @@
+# Divergent project config used by bootstrap apply fixture.
+[tool.dev-cli]
+schema_version = 999
+

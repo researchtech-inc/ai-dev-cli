@@ -1,0 +1,17 @@
+{
+  "name": "project command rule allows non-match",
+  "command": "dev check",
+  "expected_decision": "allow",
+  "expected_rule_id": null,
+  "pyproject": [
+    "[tool.dev-cli.hook]",
+    "",
+    "[[tool.dev-cli.hook.rules]]",
+    "id = \"project-no-deploy\"",
+    "message = \"BLOCKED: deploys are blocked. Use the release workflow instead.\"",
+    "",
+    "[tool.dev-cli.hook.rules.match]",
+    "command = \"\\\\bdeploy-production\\\\b\""
+  ],
+  "stderr_substring": ""
+}

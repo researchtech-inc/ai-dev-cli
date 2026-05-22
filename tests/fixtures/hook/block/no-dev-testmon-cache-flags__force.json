@@ -1,0 +1,7 @@
+{
+  "name": "dev test force flag is blocked",
+  "command": "dev test --force",
+  "expected_decision": "block",
+  "expected_rule_id": "no-dev-testmon-cache-flags",
+  "stderr_substring": "BLOCKED: --force and --no-testmon bypass dev's testmon and cache-safety model."
+}

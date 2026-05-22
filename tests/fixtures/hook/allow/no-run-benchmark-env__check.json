@@ -1,0 +1,7 @@
+{
+  "name": "dev check without RUN_BENCHMARK is allowed",
+  "command": "dev check",
+  "expected_decision": "allow",
+  "expected_rule_id": null,
+  "stderr_substring": ""
+}

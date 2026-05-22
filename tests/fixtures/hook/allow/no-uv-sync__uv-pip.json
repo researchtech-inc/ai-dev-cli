@@ -1,0 +1,7 @@
+{
+  "name": "uv pip command is allowed",
+  "command": "uv pip list",
+  "expected_decision": "allow",
+  "expected_rule_id": null,
+  "stderr_substring": ""
+}

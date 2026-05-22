@@ -1,0 +1,171 @@
+# template_id = "strict-python/pyproject.snippet.toml"
+# template_version = 1
+
+# ai-dev-cli profile: strict-python
+# Project: {{ project_name }}
+# Python: {{ python_version }}
+
+[tool.dev-cli]
+schema_version = 1
+cache_dir = ".tmp/dev-runs"
+tracked_extensions = [".py", ".toml", ".yml", ".yaml", ".json"]
+runner = "auto"
+test_roots = ["tests"]
+source_packages = []
+replace_auto_checks = false
+checks = []
+
+[tool.dev-cli.hash]
+globs = [".semgrep/*.yml", "pyrightconfig*.json", "tests/conftest.py"]
+files = ["pyproject.toml", ".vulture_whitelist.py"]
+optional_files = []
+
+[tool.dev-cli.step_timeouts]
+lint = 300
+typecheck = 300
+deadcode = 300
+semgrep = 600
+docstrings = 300
+test_validator = 120
+
+[tool.dev-cli.lanes.unit]
+paths = ["tests/unit"]
+xdist = ["-n", "auto", "--dist", "worksteal"]
+timeout = 30
+slow_threshold = 30
+testmon = true
+
+[tool.dev-cli.lanes.integration]
+paths = ["tests/integration"]
+xdist = ["-n", "4", "--dist", "loadfile"]
+timeout = 180
+slow_threshold = 120
+testmon = true
+blast_radius_ratio = 0.5
+
+[tool.dev-cli.lanes.qualification]
+paths = ["tests/qualification"]
+xdist = ["-n", "2"]
+timeout = 900
+testmon = false
+
+[tool.dev-cli.verify]
+enabled = true
+steps = [{command = "check"}]
+
+[tool.dev-cli.hook]
+enabled = true
+disable = []
+
+[tool.dev-cli.pytest_plugin]
+enabled = true
+
+[tool.ruff]
+line-length = 120
+target-version = "py314"
+preview = true
+exclude = [".tmp", "build", "dist", ".venv", "venv", "__pycache__"]
+
+[tool.ruff.lint]
+select = [
+  "E",
+  "F",
+  "I",
+  "TID",
+  "T20",
+  "D",
+  "DOC",
+  "B",
+  "SIM",
+  "ARG",
+  "RUF",
+  "UP",
+  "PERF",
+  "C4",
+  "FBT",
+  "S",
+  "C90",
+  "PT",
+  "PLC",
+  "PLE",
+  "PLW",
+  "PLR",
+  "PIE",
+  "RET",
+  "A",
+  "ASYNC",
+  "TRY",
+  "BLE",
+]
+ignore = [
+  "D105",
+  "S101",
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "parents"
+
+[tool.ruff.lint.mccabe]
+max-complexity = 12
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["D", "DOC", "S", "ARG", "FBT", "PLR", "PLW", "TRY", "T20"]
+".vulture_whitelist.py" = ["B018", "E402", "F401", "F821", "D", "DOC"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.basedpyright]
+pythonVersion = "3.14"
+typeCheckingMode = "strict"
+include = ["."]
+exclude = [
+  "**/__pycache__",
+  "**/node_modules",
+  ".venv",
+  "venv",
+  "env",
+  ".git",
+  ".tmp",
+  "build",
+  "dist",
+]
+reportMissingImports = true
+reportMissingTypeStubs = "warning"
+reportUndefinedVariable = true
+reportUnknownParameterType = "warning"
+reportUnknownArgumentType = "warning"
+reportUnknownLambdaType = "warning"
+reportUnknownVariableType = "warning"
+reportUnknownMemberType = "warning"
+reportAny = "information"
+reportPrivateUsage = false
+reportUnnecessaryTypeIgnoreComment = "error"
+reportUnusedExpression = "error"
+reportUnreachable = "error"
+reportDeprecated = "warning"
+reportUnusedCoroutine = "error"
+
+[tool.interrogate]
+fail-under = 100
+verbose = 1
+exclude = ["tests", "examples", ".venv", "venv", "build", "dist"]
+ignore-init-method = true
+ignore-init-module = false
+ignore-magic = true
+ignore-module = false
+ignore-nested-functions = true
+ignore-nested-classes = true
+ignore-overloaded-functions = true
+ignore-private = true
+ignore-property-decorators = true
+ignore-semiprivate = true
+ignore-setters = true
+
+[tool.vulture]
+paths = ["src", ".vulture_whitelist.py"]
+min_confidence = 80
+sort_by_size = true

@@ -1,0 +1,7 @@
+{
+  "name": "RUN_BENCHMARK outside dev benchmark is blocked",
+  "command": "env RUN_BENCHMARK=1 pytest benchmarks",
+  "expected_decision": "block",
+  "expected_rule_id": "no-run-benchmark-env",
+  "stderr_substring": "BLOCKED: RUN_BENCHMARK=1 can force live benchmark collection outside dev benchmark."
+}

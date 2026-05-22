@@ -1,0 +1,20 @@
+rules:
+  - id: no-raw-asyncio-gather
+    patterns:
+      - pattern: asyncio.gather(...)
+      - pattern-not-inside: |
+          async def safe_gather(...):
+              ...
+      - pattern-not-inside: |
+          async def safe_gather_indexed(...):
+              ...
+    message: >
+      Use a checked gather helper instead of raw asyncio.gather(). The helper
+      must preserve exception handling, failure logging, and all-fail guards.
+    severity: WARNING
+    languages: [python]
+    paths:
+      include: ["src/ai_dev_cli/"]
+      exclude:
+        - "**/tests/**"
+        - "**/benchmarks/**"

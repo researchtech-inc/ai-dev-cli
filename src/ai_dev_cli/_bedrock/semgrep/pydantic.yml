@@ -1,0 +1,51 @@
+rules:
+  - id: mutable-field-default
+    pattern-either:
+      - pattern: Field(default=[], ...)
+      - pattern: Field(default={}, ...)
+      - pattern: Field(default=set(), ...)
+      - pattern: Field(default=[...], ...)
+      - pattern: Field(default={...}, ...)
+    message: "Mutable default in Field() is forbidden. Use Field(default_factory=...) instead."
+    severity: ERROR
+    languages: [python]
+
+  - id: mutable-pydantic-field-default
+    patterns:
+      - pattern-either:
+          - pattern-inside: |
+              class $CLASS(BaseModel):
+                  ...
+          - pattern-inside: |
+              class $CLASS(BaseSettings):
+                  ...
+      - pattern-either:
+          - pattern: "$FIELD: $TYPE = []"
+          - pattern: "$FIELD: $TYPE = {}"
+          - pattern: "$FIELD: $TYPE = set()"
+          - pattern: "$FIELD: $TYPE = list()"
+          - pattern: "$FIELD: $TYPE = dict()"
+    message: "Mutable Pydantic field defaults are forbidden. Use Field(default_factory=...) instead."
+    severity: ERROR
+    languages: [python]
+
+  - id: mutable-field-on-frozen-pydantic-model
+    patterns:
+      - pattern-inside: |
+          class $CLASS(...):
+              ...
+              model_config = ConfigDict(..., frozen=True, ...)
+              ...
+      - pattern-not-inside: |
+          def $METHOD(...):
+              ...
+      - pattern-either:
+          - pattern: "$FIELD: list[$T] = ..."
+          - pattern: "$FIELD: list[$T]"
+          - pattern: "$FIELD: dict[$K, $V] = ..."
+          - pattern: "$FIELD: dict[$K, $V]"
+          - pattern: "$FIELD: set[$T] = ..."
+          - pattern: "$FIELD: set[$T]"
+    message: "Mutable collection type on frozen Pydantic model is forbidden. Use tuple or frozenset."
+    severity: ERROR
+    languages: [python]

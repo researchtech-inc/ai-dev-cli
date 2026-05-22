@@ -1,0 +1,9 @@
+profile = "minimal"
+ai_dev_cli_version = "0.1.0"
+written_at = "2026-05-22T00:00:00Z"
+
+[[files]]
+path = "pyproject.toml"
+template_id = "minimal/pyproject.snippet.toml"
+template_version = 1
+sha256 = "0000000000000000000000000000000000000000000000000000000000000000"

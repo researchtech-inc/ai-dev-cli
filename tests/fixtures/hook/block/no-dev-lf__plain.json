@@ -1,0 +1,7 @@
+{
+  "name": "removed lf flag is blocked",
+  "command": "dev test --lf",
+  "expected_decision": "block",
+  "expected_rule_id": "no-dev-lf",
+  "stderr_substring": "BLOCKED: --lf is removed and does not express the scoped rerun contract."
+}

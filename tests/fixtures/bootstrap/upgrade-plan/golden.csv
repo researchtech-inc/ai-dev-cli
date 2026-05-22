@@ -1,0 +1,16 @@
+path,target,disp,action,why,next
+.claude/settings.json,.claude/settings.json,add,add,profile target missing,write template
+.codex/config.toml,.codex/config.toml,add,add,profile target missing,write template
+.github/workflows/ci.yml,.github/workflows/ci.yml,add,add,profile target missing,write template
+.github/workflows/reusable-quality-checks.yml,.github/workflows/reusable-quality-checks.yml,add,add,profile target missing,write template
+.pre-commit-config.yaml,.pre-commit-config.yaml,add,add,profile target missing,write template
+.semgrep/async.yml,.semgrep/async.yml,add,add,profile target missing,write template
+.semgrep/python_safety.yml,.semgrep/python_safety.yml,add,add,profile target missing,write template
+.vulture_whitelist.py,.vulture_whitelist.py,add,add,profile target missing,write template
+CLAUDE.md,CLAUDE.md,add,add,profile target missing,write template
+Makefile,Makefile,add,add,profile target missing,write template
+pyproject.toml,pyproject.toml,divergent,keep,managed file edited outside ai-dev-cli,review git diff
+tests/integration/test_live_matrix.py,tests/integration/test_live_matrix.py,expensive,keep,live or expensive behavior needs maintainer verification,leave
+tests/test_smoke.py,examples/tests/test_smoke.py,cheap,move,profile-layout correction,move
+tests/unit/test_drop.py,tests/unit/test_drop.py,drop,drop,irreparable test authoring pattern,drop
+tests/unit/test_options.py,tests/unit/test_options.py,medium,keep,isolated fixture or small lane decision,manual review

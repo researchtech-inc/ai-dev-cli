@@ -1,0 +1,9 @@
+repos:
+  - repo: local
+    hooks:
+      - id: raw-pytest
+        name: raw pytest
+        entry: pytest tests/unit
+        language: system
+        pass_filenames: false
+

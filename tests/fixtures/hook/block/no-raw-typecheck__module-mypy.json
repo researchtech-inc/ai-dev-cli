@@ -1,0 +1,7 @@
+{
+  "name": "module-mode mypy is blocked",
+  "command": "python -m mypy .",
+  "expected_decision": "block",
+  "expected_rule_id": "no-raw-typecheck",
+  "stderr_substring": "BLOCKED: Raw typecheckers bypass dev's configured project and test typecheck flow."
+}

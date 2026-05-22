@@ -1,0 +1,7 @@
+{
+  "name": "dev verify is blocked",
+  "command": "dev verify",
+  "expected_decision": "block",
+  "expected_rule_id": "no-dev-verify",
+  "stderr_substring": "BLOCKED: dev verify runs broad validation outside the agent budget."
+}

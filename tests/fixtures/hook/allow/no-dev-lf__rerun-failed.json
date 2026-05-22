@@ -1,0 +1,7 @@
+{
+  "name": "rerun-failed replacement is allowed",
+  "command": "dev test --rerun-failed",
+  "expected_decision": "allow",
+  "expected_rule_id": null,
+  "stderr_substring": ""
+}

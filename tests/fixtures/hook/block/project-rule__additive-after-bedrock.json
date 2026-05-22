@@ -1,0 +1,17 @@
+{
+  "name": "bedrock rule wins before additive project rule",
+  "command": "pytest tests/unit",
+  "expected_decision": "block",
+  "expected_rule_id": "no-raw-pytest",
+  "pyproject": [
+    "[tool.dev-cli.hook]",
+    "",
+    "[[tool.dev-cli.hook.rules]]",
+    "id = \"project-pytest-shadow\"",
+    "message = \"BLOCKED: project pytest policy matched. Use dev test instead.\"",
+    "",
+    "[tool.dev-cli.hook.rules.match]",
+    "command = \"pytest\""
+  ],
+  "stderr_substring": "BLOCKED: Raw pytest bypasses dev's lane, cache, timeout, and log controls."
+}

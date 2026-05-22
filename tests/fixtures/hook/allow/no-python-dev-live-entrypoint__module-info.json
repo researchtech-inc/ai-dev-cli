@@ -1,0 +1,7 @@
+{
+  "name": "module-mode info is allowed",
+  "command": "python -m ai_dev_cli info",
+  "expected_decision": "allow",
+  "expected_rule_id": null,
+  "stderr_substring": ""
+}

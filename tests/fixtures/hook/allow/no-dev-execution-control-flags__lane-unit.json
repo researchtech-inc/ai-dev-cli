@@ -1,0 +1,7 @@
+{
+  "name": "unit lane without execution override is allowed",
+  "command": "dev test --lane=unit",
+  "expected_decision": "allow",
+  "expected_rule_id": null,
+  "stderr_substring": ""
+}

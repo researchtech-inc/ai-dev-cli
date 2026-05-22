@@ -1,0 +1,7 @@
+{
+  "name": "env-wrapped dev check is allowed",
+  "command": "FOO=bar dev check",
+  "expected_decision": "allow",
+  "expected_rule_id": null,
+  "stderr_substring": ""
+}

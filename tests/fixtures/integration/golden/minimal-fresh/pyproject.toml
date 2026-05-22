@@ -1,0 +1,47 @@
+# template_id = "minimal/pyproject.snippet.toml"
+# template_version = 1
+
+# ai-dev-cli profile: minimal
+# Project: minimal-fresh
+# Python: 3.14
+
+[tool.dev-cli]
+schema_version = 1
+cache_dir = ".tmp/dev-runs"
+tracked_extensions = [".py"]
+runner = "auto"
+test_roots = ["tests"]
+source_packages = []
+replace_auto_checks = false
+checks = []
+
+[tool.dev-cli.hash]
+globs = []
+files = ["pyproject.toml"]
+optional_files = []
+
+[tool.dev-cli.lanes.unit]
+paths = ["tests/unit"]
+timeout = 30
+testmon = true
+
+[tool.dev-cli.lanes.integration]
+paths = ["tests/integration"]
+timeout = 180
+testmon = true
+
+[tool.dev-cli.lanes.qualification]
+paths = ["tests/qualification"]
+timeout = 900
+testmon = false
+
+[tool.dev-cli.verify]
+enabled = true
+steps = [{command = "check"}]
+
+[tool.dev-cli.hook]
+enabled = true
+disable = []
+
+[tool.dev-cli.pytest_plugin]
+enabled = true

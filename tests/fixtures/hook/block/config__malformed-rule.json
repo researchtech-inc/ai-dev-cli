@@ -1,0 +1,14 @@
+{
+  "name": "project rule without match fails closed",
+  "command": "dev check",
+  "expected_decision": "block",
+  "expected_rule_id": null,
+  "pyproject": [
+    "[tool.dev-cli.hook]",
+    "",
+    "[[tool.dev-cli.hook.rules]]",
+    "id = \"project-no-deploy\"",
+    "message = \"BLOCKED: deploys are blocked. Use the release workflow instead.\""
+  ],
+  "stderr_substring": "entry 'project-no-deploy' in pyproject.toml:3 because match is missing"
+}

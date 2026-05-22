@@ -1,0 +1,7 @@
+{
+  "name": "qualification lane is allowed by default",
+  "command": "dev test --lane=qualification",
+  "expected_decision": "allow",
+  "expected_rule_id": null,
+  "stderr_substring": ""
+}

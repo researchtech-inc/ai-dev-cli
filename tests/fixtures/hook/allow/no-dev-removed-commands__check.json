@@ -1,0 +1,7 @@
+{
+  "name": "dev check replacement is allowed",
+  "command": "dev check",
+  "expected_decision": "allow",
+  "expected_rule_id": null,
+  "stderr_substring": ""
+}

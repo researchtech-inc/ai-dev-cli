@@ -1,0 +1,23 @@
+# template_id = "agent/.semgrep/async.yml"
+# template_version = 1
+
+rules:
+  - id: async-function-without-await
+    patterns:
+      - pattern: |
+          async def $FUNC(...):
+              ...
+      - pattern-not: |
+          async def $FUNC(...):
+              ...
+              await $EXPR
+              ...
+    message: "Async functions without await add scheduling ambiguity. Use a sync function or await work."
+    severity: WARNING
+    languages: [python]
+
+  - id: prefer-taskgroup-for-parallel-awaits
+    pattern: await asyncio.gather(...)
+    message: "Raw asyncio.gather hides cancellation policy. Use asyncio.TaskGroup for parallel work."
+    severity: WARNING
+    languages: [python]

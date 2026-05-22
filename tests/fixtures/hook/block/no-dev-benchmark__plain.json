@@ -1,0 +1,7 @@
+{
+  "name": "dev benchmark is blocked",
+  "command": "dev benchmark",
+  "expected_decision": "block",
+  "expected_rule_id": "no-dev-benchmark",
+  "stderr_substring": "BLOCKED: dev benchmark can run live benchmark validation outside the agent budget."
+}

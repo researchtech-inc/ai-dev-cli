@@ -1,0 +1,7 @@
+{
+  "name": "mypy-protobuf executable is not raw mypy",
+  "command": "mypy-protobuf",
+  "expected_decision": "allow",
+  "expected_rule_id": null,
+  "stderr_substring": ""
+}

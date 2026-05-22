@@ -1,0 +1,30 @@
+# Project-local working artifacts
+rounds/
+docs-internal/
+.tmp/
+.tasks/
+
+# Python caches and build output
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.testmondata
+dist/
+build/
+*.egg-info/
+.venv/
+
+# Coverage output
+.coverage
+.coverage.*
+htmlcov/
+
+# Local secrets
+.env
+
+# Editor and OS noise
+.DS_Store
+.idea/
+.vscode/

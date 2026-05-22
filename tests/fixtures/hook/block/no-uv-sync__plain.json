@@ -1,0 +1,7 @@
+{
+  "name": "uv sync is blocked",
+  "command": "uv sync",
+  "expected_decision": "block",
+  "expected_rule_id": "no-uv-sync",
+  "stderr_substring": "BLOCKED: uv sync creates a local .venv in the prepared devcontainer environment."
+}

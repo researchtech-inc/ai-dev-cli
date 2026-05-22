@@ -1,0 +1,7 @@
+{
+  "name": "direct dev output is allowed",
+  "command": "dev test",
+  "expected_decision": "allow",
+  "expected_rule_id": null,
+  "stderr_substring": ""
+}

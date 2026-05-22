@@ -1,0 +1,17 @@
+{
+  "name": "bad project rule message fails closed",
+  "command": "dev check",
+  "expected_decision": "block",
+  "expected_rule_id": null,
+  "pyproject": [
+    "[tool.dev-cli.hook]",
+    "",
+    "[[tool.dev-cli.hook.rules]]",
+    "id = \"project-no-deploy\"",
+    "message = \"production deploys are blocked\"",
+    "",
+    "[tool.dev-cli.hook.rules.match]",
+    "command = \"deploy-production\""
+  ],
+  "stderr_substring": "message in pyproject.toml:5 because it does not use the required block-message shape"
+}

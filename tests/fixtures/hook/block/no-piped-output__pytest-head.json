@@ -1,0 +1,7 @@
+{
+  "name": "piped pytest output is blocked",
+  "command": "pytest tests/unit | head",
+  "expected_decision": "block",
+  "expected_rule_id": "no-piped-output",
+  "stderr_substring": "BLOCKED: Piping dev or pytest output can hide failures and hang through buffering."
+}

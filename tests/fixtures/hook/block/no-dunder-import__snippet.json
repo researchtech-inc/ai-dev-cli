@@ -1,0 +1,7 @@
+{
+  "name": "dunder import shell snippet is blocked",
+  "command": "python -c \"__import__('ai_dev_cli').main.main()\"",
+  "expected_decision": "block",
+  "expected_rule_id": "no-dunder-import",
+  "stderr_substring": "BLOCKED: __import__() command snippets can hide protected tool invocations."
+}

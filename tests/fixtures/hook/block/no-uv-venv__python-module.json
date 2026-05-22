@@ -1,0 +1,7 @@
+{
+  "name": "python module venv creation is blocked",
+  "command": "python -m venv .venv",
+  "expected_decision": "block",
+  "expected_rule_id": "no-uv-venv",
+  "stderr_substring": "BLOCKED: Creating a local virtualenv conflicts with the prepared devcontainer install."
+}

@@ -1,0 +1,7 @@
+{
+  "name": "raw pytest is blocked",
+  "command": "pytest tests/unit",
+  "expected_decision": "block",
+  "expected_rule_id": "no-raw-pytest",
+  "stderr_substring": "BLOCKED: Raw pytest bypasses dev's lane, cache, timeout, and log controls."
+}

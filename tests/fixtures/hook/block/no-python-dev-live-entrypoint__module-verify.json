@@ -1,0 +1,7 @@
+{
+  "name": "module-mode verify is blocked",
+  "command": "python -m ai_dev_cli verify",
+  "expected_decision": "block",
+  "expected_rule_id": "no-python-dev-live-entrypoint",
+  "stderr_substring": "BLOCKED: Python-module dev entrypoints can bypass live and broad validation guardrails."
+}

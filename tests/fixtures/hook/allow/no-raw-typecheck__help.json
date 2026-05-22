@@ -1,0 +1,7 @@
+{
+  "name": "typechecker help is allowed",
+  "command": "basedpyright --help",
+  "expected_decision": "allow",
+  "expected_rule_id": null,
+  "stderr_substring": ""
+}

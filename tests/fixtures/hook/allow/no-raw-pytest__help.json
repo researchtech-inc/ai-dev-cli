@@ -1,0 +1,7 @@
+{
+  "name": "pytest help is allowed",
+  "command": "pytest --help",
+  "expected_decision": "allow",
+  "expected_rule_id": null,
+  "stderr_substring": ""
+}

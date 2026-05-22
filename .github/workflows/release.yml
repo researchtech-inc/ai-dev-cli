@@ -1,0 +1,63 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    uses: ./.github/workflows/reusable-quality-checks.yml
+
+  publish:
+    needs: quality
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Install release tools
+        run: python -m pip install build twine
+
+      - name: Build distributions
+        run: python -m build
+
+      - name: Validate distributions
+        run: python -m twine check dist/*
+
+      - name: Smoke install wheel
+        run: |
+          python -m pip install --no-deps dist/*.whl
+          python -c "import ai_dev_cli; print(ai_dev_cli.__version__)"
+          python -m pip install --force-reinstall dist/*.whl
+          dev --help
+          python -c "from ai_dev_cli.lanes import lane_from_path, load_lanes; print(lane_from_path('tests/unit/test_x.py')); print(callable(load_lanes))"
+          printf '%s\n' '{"tool_input":{"command":"dev check"}}' | python -m ai_dev_cli.hook
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://upload.pypi.org/legacy/
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG_NAME: ${{ github.ref_name }}
+        run: |
+          awk -v tag="$TAG_NAME" '
+            $0 == "## " tag { in_section = 1; next }
+            in_section && /^## / { exit }
+            in_section { print }
+          ' CHANGELOG.md > .release-notes.md
+          gh release create "$TAG_NAME" dist/* --title "$TAG_NAME" --notes-file .release-notes.md --verify-tag

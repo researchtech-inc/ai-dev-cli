@@ -1,0 +1,8 @@
+{
+  "name": "qualification lane optional policy blocks when explicitly active",
+  "command": "dev test --lane=qualification",
+  "expected_decision": "block",
+  "expected_rule_id": "no-qualification-lane",
+  "enabled_builtin_rule_ids": ["no-qualification-lane"],
+  "stderr_substring": "BLOCKED: The project does not allow qualification lane tests in agent sessions."
+}

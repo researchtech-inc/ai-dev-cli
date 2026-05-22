@@ -1,0 +1,23 @@
+{
+    "extends": "./pyproject.toml",
+    "include": ["tests"],
+    "exclude": ["src/ai_dev_cli"],
+    "reportMissingParameterType": false,
+    "reportMissingModuleSource": false,
+    "reportMissingTypeStubs": false,
+    "reportArgumentType": "warning",
+    "reportAttributeAccessIssue": "warning",
+    "reportCallIssue": false,
+    "reportIncompatibleMethodOverride": false,
+    "reportPrivateUsage": false,
+    "reportUnusedClass": false,
+    "reportUnusedFunction": false,
+    "reportUnusedVariable": false,
+    "reportOptionalMemberAccess": "warning",
+    "reportReturnType": "warning",
+    "reportAssignmentType": "warning",
+    "reportUnnecessaryTypeIgnoreComment": false,
+    "reportUntypedFunctionDecorator": false,
+    "reportUntypedClassDecorator": false,
+    "reportUntypedBaseClass": false
+}

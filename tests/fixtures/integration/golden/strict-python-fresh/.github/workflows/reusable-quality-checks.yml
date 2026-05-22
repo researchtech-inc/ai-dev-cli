@@ -1,0 +1,33 @@
+# template_id = "strict-python/.github/workflows/reusable-quality-checks.yml"
+# template_version = 1
+
+name: Reusable Quality Checks
+
+on:
+  workflow_call:
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        quality_lane: [check, verify]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Install project
+        run: python -m pip install -e ".[dev]"
+
+      - name: Run dev check
+        if: matrix.quality_lane == 'check'
+        run: dev check
+
+      - name: Run dev verify
+        if: matrix.quality_lane == 'verify'
+        run: dev verify

@@ -1,0 +1,363 @@
+[project]
+name = "ai-dev-cli"
+version = "0.1.0"
+description = "Standalone development workflow CLI for Python projects"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.14"
+authors = [
+    {name = "ai-dev-cli contributors"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.14",
+    "Typing :: Typed",
+    "Topic :: Software Development :: Quality Assurance",
+]
+dependencies = [
+    "pytest-reportlog>=0.4.0",
+    "ruamel.yaml>=0.19.1",
+    "xxhash>=3.5.0",
+]
+
+[project.scripts]
+dev = "ai_dev_cli.main:main"
+
+[project.entry-points.pytest11]
+ai_dev_cli = "ai_dev_cli._pytest_plugin"
+
+[project.optional-dependencies]
+dev = [
+    "basedpyright==1.37.3",
+    "interrogate==1.7.0",
+    "pre-commit>=4.3.0",
+    "pytest-cov>=5.0.0",
+    "pytest-mock>=3.14.0",
+    "pytest-testmon>=2.2.0",
+    "pytest-timeout>=2.3.0",
+    "pytest-xdist>=3.8.0",
+    "pytest>=8.4.1",
+    "ruff==0.15.6",
+    "vulture==2.14",
+    "pylint>=3.0.0",
+]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+strict = true
+testpaths = ["tests"]
+markers = [
+    "serial: opt out of xdist for process-stateful tests",
+    "timeout(seconds): per-test timeout; lane defaults are added by the ai_dev_cli pytest plugin once implemented",
+    "xdist_group: group tests on the same xdist worker",
+]
+filterwarnings = [
+    "ignore:The 'u' type code is deprecated and will be removed in Python 3.16:DeprecationWarning",
+]
+
+[tool.coverage.run]
+source = ["ai_dev_cli"]
+omit = ["*/tests/*", "*/test_*.py"]
+branch = true
+parallel = true
+
+[tool.coverage.report]
+fail_under = 80
+show_missing = true
+skip_covered = false
+exclude_lines = [
+    "pragma: no cover",
+    "@overload",
+    "raise NotImplementedError",
+    "\\.\\.\\.",
+]
+
+[tool.coverage.html]
+directory = ".tmp/dev-runs/coverage-html"
+
+[tool.ruff]
+line-length = 120
+target-version = "py314"
+preview = true
+exclude = [
+    ".tmp",
+    "build",
+    "dist",
+    ".venv",
+    "venv",
+    "__pycache__",
+    "scripts",
+    # Generated golden scaffold snapshots are validated by integration tests.
+    "tests/fixtures/integration/golden",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "I",
+    "TID",
+    "T20",
+    "D",
+    "DOC",
+    "B",
+    "SIM",
+    "ARG",
+    "RUF",
+    "UP",
+    "PERF",
+    "C4",
+    "FBT",
+    "S",
+    "C90",
+    "PT",
+    "PLC",
+    "PLE",
+    "PLW",
+    "PLR",
+    "PIE",
+    "RET",
+    "A",
+    "ASYNC",
+    "TRY",
+    "BLE",
+]
+ignore = [
+    "DOC201", "DOC501", "DOC502", "D105",
+    "S101",
+    "RET504",
+    "ARG002",
+    "FBT001",
+    "PLR2004",
+    "PLR0913",
+    "TRY003",
+    "D102",
+    "D107",
+    "D417",
+    "SIM108",
+    "C420",
+    "TRY301",
+    "TRY300",
+    # ai-dev-cli is a human-facing CLI; stdout/stderr markdown is the product surface.
+    "T201",
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.pylint]
+max-public-methods = 30
+
+[tool.ruff.lint.per-file-ignores]
+# Config and parser assembly intentionally keep orchestration fields together for a readable contract.
+"src/ai_dev_cli/_project.py" = ["C901", "PLR0914", "PLW0603"]
+"src/ai_dev_cli/main.py" = ["PLR0914"]
+# Subprocess execution and PATH probing are core ai-dev-cli behavior, with commands logged and bounded.
+"src/ai_dev_cli/_infra.py" = ["S404", "S603"]
+"src/ai_dev_cli/_runner.py" = ["C901", "PLR0912", "PLR0914", "PLR0915", "PLW0603", "S404", "S603"]
+"src/ai_dev_cli/_scope.py" = ["RET503"]
+"src/ai_dev_cli/_state.py" = ["PLR0917", "S404", "S603", "S607"]
+"tests/**/*.py" = [
+    "T20", "D", "DOC", "PLC0415", "PLC1901", "PLC2701", "S", "ARG", "FBT", "PLW",
+    "PLR", "TRY", "SIM", "ASYNC", "C4", "B017", "B018", "E402", "I001", "PT011",
+    "PT012", "PT017", "PT018", "RUF012", "RUF015", "RUF029", "RUF059", "RUF069",
+    "TID251", "A002",
+]
+".vulture_whitelist.py" = ["B018", "E402", "F401", "F821", "D", "PLC2701"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "parents"
+
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+"warnings".msg = "Use logging.getLogger(__name__).warning() instead of import warnings"
+
+[tool.ruff.lint.mccabe]
+max-complexity = 12
+
+[tool.interrogate]
+fail-under = 100
+verbose = 1
+exclude = ["tests", "examples", ".venv", "venv", "build", "dist", "src/ai_dev_cli/_*.py", "src/ai_dev_cli/**/_*.py"]
+ignore-init-method = true
+ignore-init-module = false
+ignore-magic = true
+ignore-module = false
+ignore-nested-functions = true
+ignore-nested-classes = true
+ignore-overloaded-functions = true
+ignore-private = true
+ignore-property-decorators = true
+ignore-semiprivate = true
+ignore-setters = true
+
+[tool.basedpyright]
+pythonVersion = "3.14"
+typeCheckingMode = "strict"
+include = ["src/ai_dev_cli"]
+exclude = [
+    "**/__pycache__",
+    "**/node_modules",
+    ".venv",
+    "venv",
+    "env",
+    ".git",
+    "build",
+    "dist",
+]
+reportMissingImports = true
+reportMissingTypeStubs = "warning"
+reportUndefinedVariable = true
+reportIncompatibleMethodOverride = "error"
+reportIncompatibleVariableOverride = "error"
+reportUnknownParameterType = "warning"
+reportUnknownArgumentType = "warning"
+reportUnknownLambdaType = "warning"
+reportUnknownVariableType = "warning"
+reportUnknownMemberType = "warning"
+reportAny = "information"
+reportPrivateUsage = false
+reportUnnecessaryIsInstance = "warning"
+reportUnnecessaryTypeIgnoreComment = "error"
+reportUnnecessaryCast = "warning"
+reportUnnecessaryComparison = "warning"
+reportUnusedExpression = "error"
+reportUnreachable = "error"
+reportDeprecated = "warning"
+reportUnusedCoroutine = "error"
+reportImplicitStringConcatenation = false
+
+[tool.pylint.SIMILARITIES]
+min-similarity-lines = 10
+ignore-imports = true
+ignore-comments = true
+ignore-docstrings = true
+ignore-signatures = true
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ai_dev_cli"]
+include = [
+    "src/ai_dev_cli/py.typed",
+    "src/ai_dev_cli/_templates/**/*",
+    "src/ai_dev_cli/**/*.yml",
+]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "src/ai_dev_cli/**/*.py",
+    "src/ai_dev_cli/py.typed",
+    "src/ai_dev_cli/_templates/**/*",
+    "src/ai_dev_cli/**/*.yml",
+    "tests/**/*.py",
+    "README.md",
+    "LICENSE",
+    "pyproject.toml",
+]
+
+[tool.dev-cli]
+schema_version = 1
+cache_dir = ".tmp/dev-runs"
+tracked_extensions = [".py", ".toml", ".yml", ".yaml", ".json"]
+runner = "auto"
+test_roots = ["tests"]
+source_packages = ["src/ai_dev_cli"]
+replace_auto_checks = false
+
+[tool.dev-cli.step_timeouts]
+lint = 300
+typecheck = 300
+deadcode = 300
+semgrep = 600
+docstrings = 300
+test_validator = 120
+
+[tool.dev-cli.pytest_plugin]
+enabled = true
+
+[tool.dev-cli.hash]
+globs = [".semgrep/*.yml", "pyrightconfig*.json", "tests/conftest.py"]
+files = ["pyproject.toml", ".vulture_whitelist.py"]
+optional_files = []
+
+[tool.dev-cli.lanes.unit]
+paths = ["tests/unit"]
+xdist = ["-n", "auto", "--dist", "worksteal"]
+timeout = 30
+slow_threshold = 30
+testmon = true
+agent_allowed = true
+
+[tool.dev-cli.lanes.integration]
+paths = ["tests/integration"]
+xdist = ["-n", "4", "--dist", "loadfile"]
+timeout = 180
+slow_threshold = 120
+testmon = true
+agent_allowed = true
+blast_radius_ratio = 0.5
+
+[tool.dev-cli.lanes.qualification]
+paths = ["tests/qualification"]
+xdist = ["-n", "2"]
+timeout = 900
+testmon = false
+agent_allowed = true
+
+# [tool.dev-cli]
+# schema_version = 1
+# cache_dir = ".tmp/dev-runs"
+# tracked_extensions = [".py"]
+# runner = "auto"
+# test_roots = ["tests"]
+# source_packages = ["src/ai_dev_cli"]
+# replace_auto_checks = false
+#
+# [tool.dev-cli.step_timeouts]
+# lint = 300
+# typecheck = 300
+# deadcode = 300
+# semgrep = 600
+# docstrings = 300
+# test_validator = 120
+#
+# [tool.dev-cli.pytest_plugin]
+# enabled = true
+#
+# [tool.dev-cli.hash]
+# globs = [".semgrep/*.yml", "pyrightconfig*.json", "tests/conftest.py"]
+# files = ["pyproject.toml", ".vulture_whitelist.py"]
+# optional_files = []
+#
+# [tool.dev-cli.lanes.unit]
+# paths = ["tests/unit"]
+# xdist = ["-n", "auto", "--dist", "worksteal"]
+# timeout = 30
+# slow_threshold = 30
+# testmon = true
+# agent_allowed = true
+#
+# [tool.dev-cli.lanes.integration]
+# paths = ["tests/integration"]
+# xdist = ["-n", "4", "--dist", "loadfile"]
+# timeout = 180
+# slow_threshold = 120
+# testmon = true
+# agent_allowed = true
+# blast_radius_ratio = 0.5
+#
+# [tool.dev-cli.lanes.qualification]
+# paths = ["tests/qualification"]
+# xdist = ["-n", "2"]
+# timeout = 900
+# slow_threshold = null
+# testmon = false
+# agent_allowed = true

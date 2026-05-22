@@ -1,0 +1,7 @@
+{
+  "name": "uv run is blocked by default",
+  "command": "uv run pytest",
+  "expected_decision": "block",
+  "expected_rule_id": "no-uv-run",
+  "stderr_substring": "BLOCKED: uv run is an unnecessary wrapper around tools already on PATH"
+}

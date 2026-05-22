@@ -1,0 +1,33 @@
+# template_id = "agent/.semgrep/python_safety.yml"
+# template_version = 1
+
+rules:
+  - id: no-conditional-imports
+    pattern-either:
+      - pattern: |
+          if $COND:
+              import $MODULE
+      - pattern: |
+          if $COND:
+              from $MODULE import $NAME
+    message: "Conditional imports make import behavior environment-dependent. Use module-level imports instead."
+    severity: WARNING
+    languages: [python]
+
+  - id: no-mutable-module-globals
+    patterns:
+      - pattern-not-inside: |
+          def $FUNC(...):
+              ...
+      - pattern-not-inside: |
+          class $CLASS(...):
+              ...
+      - pattern-either:
+          - pattern: $NAME = []
+          - pattern: $NAME = {}
+          - pattern: $NAME = set()
+          - pattern: $NAME = list()
+          - pattern: $NAME = dict()
+    message: "Mutable module globals make shared state implicit. Use a local value or an immutable constant."
+    severity: WARNING
+    languages: [python]

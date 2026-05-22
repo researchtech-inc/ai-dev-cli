@@ -1,0 +1,7 @@
+{
+  "name": "smoke examples are allowed",
+  "command": "dev examples --smoke",
+  "expected_decision": "allow",
+  "expected_rule_id": null,
+  "stderr_substring": ""
+}

@@ -1,0 +1,9 @@
+# Override semgrep defaults - scan tests/ when rules target tests.
+# Only exclude non-code directories.
+.tmp/
+.venv/
+__pycache__/
+build/
+dist/
+*.egg-info/
+.eggs/

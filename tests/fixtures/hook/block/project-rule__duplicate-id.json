@@ -1,0 +1,24 @@
+{
+  "name": "duplicate project rule ID fails closed",
+  "command": "dev check",
+  "expected_decision": "block",
+  "expected_rule_id": null,
+  "pyproject": [
+    "[tool.dev-cli.hook]",
+    "",
+    "[[tool.dev-cli.hook.rules]]",
+    "id = \"project-no-deploy\"",
+    "message = \"BLOCKED: deploys are blocked. Use the release workflow instead.\"",
+    "",
+    "[tool.dev-cli.hook.rules.match]",
+    "command = \"deploy-production\"",
+    "",
+    "[[tool.dev-cli.hook.rules]]",
+    "id = \"project-no-deploy\"",
+    "message = \"BLOCKED: duplicate policy is not allowed. Use the first rule instead.\"",
+    "",
+    "[tool.dev-cli.hook.rules.match]",
+    "command = \"deploy-again\""
+  ],
+  "stderr_substring": "entry 'project-no-deploy' in pyproject.toml:11 because it duplicates a project rule ID"
+}

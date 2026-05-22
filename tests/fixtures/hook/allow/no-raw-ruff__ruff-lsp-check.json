@@ -1,0 +1,7 @@
+{
+  "name": "ruff-lsp executable is not raw ruff",
+  "command": "ruff-lsp check",
+  "expected_decision": "allow",
+  "expected_rule_id": null,
+  "stderr_substring": ""
+}

@@ -1,0 +1,7 @@
+{
+  "name": "pytest-xdist executable is not raw pytest",
+  "command": "pytest-xdist --version",
+  "expected_decision": "allow",
+  "expected_rule_id": null,
+  "stderr_substring": ""
+}

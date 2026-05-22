@@ -1,0 +1,6 @@
+[tool.dev-cli]
+schema_version = 1
+runner = "none"
+test_roots = ["tests"]
+replace_auto_checks = true
+

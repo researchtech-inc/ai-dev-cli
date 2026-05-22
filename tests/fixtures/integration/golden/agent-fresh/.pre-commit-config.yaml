@@ -1,0 +1,18 @@
+# template_id = "agent/.pre-commit-config.yaml"
+# template_version = 1
+
+repos:
+  - repo: local
+    hooks:
+      - id: dev-format
+        name: dev format
+        entry: dev format
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]
+      - id: dev-check
+        name: dev check
+        entry: dev check
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]

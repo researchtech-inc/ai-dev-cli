@@ -1,0 +1,15 @@
+# template_id = "strict-python/.codex/config.toml"
+# template_version = 1
+
+[features]
+hooks = true
+
+[hooks]
+[[hooks.PreToolUse]]
+matcher = "^Bash$"
+
+[[hooks.PreToolUse.hooks]]
+type = "command"
+command = "python -m ai_dev_cli.hook"
+timeout = 10
+statusMessage = "checking dev CLI command policy"

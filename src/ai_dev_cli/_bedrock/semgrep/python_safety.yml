@@ -1,0 +1,59 @@
+rules:
+  - id: no-dunder-import
+    pattern: __import__(...)
+    message: "Do not use __import__(). Use importlib.import_module() instead."
+    severity: ERROR
+    languages: [python]
+
+  - id: no-deprecation-warnings
+    pattern-either:
+      - pattern: warnings.warn(..., DeprecationWarning, ...)
+      - pattern: warnings.warn(..., PendingDeprecationWarning, ...)
+    message: "Deprecation warnings are forbidden. Remove the deprecated path entirely."
+    severity: ERROR
+    languages: [python]
+
+  - id: parenthesized-multi-except
+    pattern-regex: 'except\s+[A-Za-z_][\w.]*\s*,\s*[A-Za-z_][\w.]*\s*:'
+    message: "Multiple exception types must be parenthesized: except (A, B):"
+    severity: ERROR
+    languages: [generic]
+    paths:
+      include:
+        - "*.py"
+
+  - id: no-unjustified-noqa
+    pattern-regex: '#\s*noqa(?::\s*[A-Z0-9,\s]+)?\s*$'
+    message: "Bare # noqa is forbidden. Add a one-line invariant justification."
+    severity: ERROR
+    languages: [generic]
+    paths:
+      include:
+        - "*.py"
+
+  - id: no-unjustified-type-ignore
+    pattern-regex: '#\s*type:\s*ignore(?:\[[^\]]+\])?\s*$'
+    message: "Bare # type: ignore is forbidden. Add a one-line invariant justification."
+    severity: ERROR
+    languages: [generic]
+    paths:
+      include:
+        - "*.py"
+
+  - id: no-unjustified-nosemgrep
+    pattern-regex: '#\s*nosemgrep(?::\s*[\w.-]+(?:\s*,\s*[\w.-]+)*)?\s*$'
+    message: "Bare # nosemgrep is forbidden. Add a one-line invariant justification."
+    severity: ERROR
+    languages: [generic]
+    paths:
+      include:
+        - "*.py"
+
+  - id: no-unjustified-xfail
+    pattern-regex: '@pytest\.mark\.xfail(?:\((?![^)]*reason\s*=)[^)]*\))?\s*$'
+    message: "pytest xfail needs reason= with a one-line invariant justification."
+    severity: ERROR
+    languages: [generic]
+    paths:
+      include:
+        - "*.py"

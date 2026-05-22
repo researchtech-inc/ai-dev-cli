@@ -1,0 +1,11 @@
+{
+  "name": "uv run is allowed when the soft rule is disabled",
+  "command": "uv run pytest",
+  "expected_decision": "allow",
+  "expected_rule_id": null,
+  "pyproject": [
+    "[tool.dev-cli.hook]",
+    "disable = [\"no-uv-run\"]"
+  ],
+  "stderr_substring": ""
+}

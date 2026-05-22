@@ -1,0 +1,9 @@
+[tool.dev-cli]
+schema_version = 1
+
+[tool.dev-cli.pytest_plugin]
+enabled = false
+
+[tool.dev-cli.lanes.unit]
+paths = ["tests/unit"]
+timeout = 30

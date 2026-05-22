@@ -1,0 +1,13 @@
+# template_id = "agent/.github/workflows/ci.yml"
+# template_version = 1
+
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  quality-checks:
+    uses: ./.github/workflows/reusable-quality-checks.yml

@@ -1,0 +1,17 @@
+{
+  "name": "project env rule blocks",
+  "command": "LIVE_PROFILE=1 dev check",
+  "expected_decision": "block",
+  "expected_rule_id": "project-no-live-profile",
+  "pyproject": [
+    "[tool.dev-cli.hook]",
+    "",
+    "[[tool.dev-cli.hook.rules]]",
+    "id = \"project-no-live-profile\"",
+    "message = \"BLOCKED: LIVE_PROFILE enables external systems. Use dev check instead.\"",
+    "",
+    "[tool.dev-cli.hook.rules.match.env]",
+    "LIVE_PROFILE = \"1\""
+  ],
+  "stderr_substring": "BLOCKED: LIVE_PROFILE enables external systems."
+}

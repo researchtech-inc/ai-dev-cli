@@ -1,0 +1,8 @@
+{
+  "name": "integration lane optional policy blocks when explicitly active",
+  "command": "dev test --lane=integration",
+  "expected_decision": "block",
+  "expected_rule_id": "no-integration-lane",
+  "enabled_builtin_rule_ids": ["no-integration-lane"],
+  "stderr_substring": "BLOCKED: The project does not allow integration lane tests in agent sessions."
+}

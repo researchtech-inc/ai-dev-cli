@@ -1,0 +1,5 @@
+# template_id = "minimal/.semgrep/async.yml"
+# template_version = 1
+
+# Project-extensible Semgrep starter file. Hard bedrock rules stay in ai_dev_cli._bedrock.
+rules: []

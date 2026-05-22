@@ -1,0 +1,7 @@
+{
+  "name": "live examples are blocked",
+  "command": "dev examples --live",
+  "expected_decision": "block",
+  "expected_rule_id": "no-live-examples",
+  "stderr_substring": "BLOCKED: Live examples make external LLM calls."
+}

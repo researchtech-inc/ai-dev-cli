@@ -1,0 +1,17 @@
+{
+  "name": "project command rule blocks",
+  "command": "deploy-production --target prod",
+  "expected_decision": "block",
+  "expected_rule_id": "project-no-deploy",
+  "pyproject": [
+    "[tool.dev-cli.hook]",
+    "",
+    "[[tool.dev-cli.hook.rules]]",
+    "id = \"project-no-deploy\"",
+    "message = \"BLOCKED: deploys are blocked. Use the release workflow instead.\"",
+    "",
+    "[tool.dev-cli.hook.rules.match]",
+    "command = \"\\\\bdeploy-production\\\\b\""
+  ],
+  "stderr_substring": "BLOCKED: deploys are blocked."
+}

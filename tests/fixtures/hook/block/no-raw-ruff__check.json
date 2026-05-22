@@ -1,0 +1,7 @@
+{
+  "name": "raw ruff check is blocked",
+  "command": "ruff check .",
+  "expected_decision": "block",
+  "expected_rule_id": "no-raw-ruff",
+  "stderr_substring": "BLOCKED: Raw ruff bypasses dev's ordered lint and format workflow and logging."
+}

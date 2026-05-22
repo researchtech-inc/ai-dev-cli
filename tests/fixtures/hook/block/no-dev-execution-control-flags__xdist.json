@@ -1,0 +1,7 @@
+{
+  "name": "dev test xdist override is blocked",
+  "command": "dev test -n auto",
+  "expected_decision": "block",
+  "expected_rule_id": "no-dev-execution-control-flags",
+  "stderr_substring": "BLOCKED: Execution-control flags bypass dev's lane-owned coverage"
+}
